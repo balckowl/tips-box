@@ -1,3 +1,62 @@
 {
-  "extends": "next/core-web-vitals"
+  "plugins": [
+    "sort-keys-custom-order",
+    "simple-import-sort",
+    "import",
+    "unused-imports",
+    "tailwindcss"
+  ],
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:tailwindcss/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2024,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "sort-keys-custom-order/object-keys": [
+      "error",
+      {
+        "orderedKeys": [
+          "id",
+          "name",
+          "title"
+        ]
+      }
+    ],
+    "sort-keys-custom-order/type-keys": [
+      "error",
+      {
+        "orderedKeys": [
+          "id",
+          "name",
+          "title"
+        ]
+      }
+    ],
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
+    "unused-imports/no-unused-imports": "error",
+    "tailwindcss/classnames-order": "error",
+    "tailwindcss/no-custom-classname": "error"
+  },
+  "settings": {
+    "tailwindcss": {
+      "groupByResponsive": true,
+      "whitelist": []
+    }
+  }
 }
+
+
