@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int          @id @default(autoincrement())
+  uid          String       @unique
+  photo_url    String?
+  repositories Repository[]
+  tips         Tip[]
+
+  @@map("users")
+}
+
+model Repository {
+  id     Int    @id @default(autoincrement())
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int
+  url    String
+  files  File[]
+
+  @@map("repositories")
+}
+
+model File {
+  id            Int        @id @default(autoincrement())
+  repository    Repository @relation(fields: [repositoryId], references: [id])
+  repositoryId  Int
+  path          String
+  is_tip_target Boolean
+  tip           Tip?
+
+  @@map("files")
+}
+
+model Tip {
+  id      Int    @id @default(autoincrement())
+  file    File   @relation(fields: [fileId], references: [id])
+  fileId  Int    @unique
+  user    User   @relation(fields: [userId], references: [id])
+  userId  Int
+  title   String
+  content String
+
+  @@map("tips")
+}
