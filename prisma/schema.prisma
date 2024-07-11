@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int          @id @default(autoincrement()) @map("id")
+  repositories Repository[]
+  tips         Tip[]
+
+  @@map("users")
+}
+
+model Repository {
+  id     Int    @id @default(autoincrement()) @map("id")
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int    @map("user_id")
+  url    String @map("url")
+  files  File[]
+
+  @@map("repositories")
+}
+
+model File {
+  id           Int        @id @default(autoincrement()) @map("id")
+  repository   Repository @relation(fields: [repositoryId], references: [id])
+  repositoryId Int        @map("repository_id")
+  path         String     @map("path")
+  downloadUrl  String     @map("download_url")
+  isTipTarget  Boolean    @map("is_tip_target")
+  tip          Tip?
+
+  @@map("files")
+}
+
+model Tip {
+  id      Int    @id @default(autoincrement()) @map("id")
+  file    File   @relation(fields: [fileId], references: [id])
+  fileId  Int    @unique @map("file_id")
+  user    User   @relation(fields: [userId], references: [id])
+  userId  Int    @map("user_id")
+  title   String @map("title")
+  content String @map("content")
+
+  @@map("tips")
+}
