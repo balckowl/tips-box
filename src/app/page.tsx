@@ -1,3 +1,10 @@
+import Logout from "@/components/logout";
+
 export default function Home() {
-  return <div>hello</div>;
+  return (
+    <div>
+      hello
+      <Logout />
+    </div>
+  );
 }
