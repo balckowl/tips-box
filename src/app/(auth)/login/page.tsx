@@ -1,11 +1,20 @@
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 
 import LoginImg from "@/assets/login-visual.webp";
 import SignInBtn from "@/components/login/sign-in-btn";
+import { authOptions } from "@/lib/auth-option";
 
-export default function Page() {
+export default async function Page() {
+  const session = await getServerSession(authOptions);
+
+  if (session) {
+    redirect("/");
+  }
+
   return (
     <div className="flex justify-center">
       <div className="flex h-screen w-[90%] md:w-full">
