@@ -1,4 +1,4 @@
-"use clinet";
+"use client";
 
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
