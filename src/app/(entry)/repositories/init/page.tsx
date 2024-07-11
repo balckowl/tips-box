@@ -10,7 +10,7 @@ export default function Page() {
         <Image src={RepoImg} alt="" className="h-full object-cover" />
       </div>
       <div className="mx-auto flex w-[90%] items-center lg:w-[65%]">
-        <div className="mx-auto w-full lg:w-[75%]">
+        <div className="mx-auto w-full lg:w-3/4">
           <h3 className="mb-[8px] text-[30px] font-bold">URLを入れよう</h3>
           <FormArea />
         </div>

@@ -13,7 +13,7 @@ export default function Header() {
         </Link>
         <div className="flex items-center gap-3">
           <Button asChild>
-            <Link href="/auth/login">はじめる</Link>
+            <Link href="/login">はじめる</Link>
           </Button>
           <ModeToggle />
         </div>
