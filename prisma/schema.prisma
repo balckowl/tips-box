@@ -38,6 +38,7 @@ model File {
   repository   Repository @relation(fields: [repositoryId], references: [id])
   repositoryId Int        @map("repository_id")
   path         String     @map("path")
+  downloadUrl  String     @map("download_url")
   isTipTarget  Boolean    @map("is_tip_target")
   tip          Tip?
 
