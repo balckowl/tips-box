@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import heroImg from "@/assets/hero-visual.png";
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,9 @@ export default function Hero() {
               過去のコードから、まだ見ぬ技術を
             </h2>
             <p className="text-[1rem]">ご自身のGitHubリポジトリから、毎日ランダムなtipsをお届けします。</p>
-            <Button>いますぐはじめる</Button>
+            <Button asChild>
+              <Link href="/login">いますぐはじめる</Link>
+            </Button>
           </div>
           <div className="order-1 lg:order-2">
             <Image src={heroImg} alt="" />
