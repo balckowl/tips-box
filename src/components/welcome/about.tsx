@@ -1,6 +1,6 @@
-import Image from 'next/image';
+import Image from "next/image";
 
-import AboutImg from '../../assets/about-visial.png';
+import AboutImg from "@/assets/about-visual.png";
 
 export default function About() {
   return (

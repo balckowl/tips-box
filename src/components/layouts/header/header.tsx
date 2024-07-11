@@ -1,7 +1,8 @@
-import Link from 'next/link';
+import Link from "next/link";
 
-import { Button } from '../../ui/button';
-import { ModeToggle } from './mode-toggle';
+import { Button } from "@/components/ui/button";
+
+import { ModeToggle } from "./mode-toggle";
 
 export default function Header() {
   return (
