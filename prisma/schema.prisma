@@ -14,13 +14,60 @@ datasource db {
 }
 
 model User {
-  id           Int          @id @default(autoincrement()) @map("id")
-  uid          String       @unique @map("uid")
-  photoUrl     String?      @map("photo_url")
+  id    Int     @id @default(autoincrement())
+  name  String?
+  email String? @unique
+  image String?
+
+  // next-auth の prisma-adapter 用の設定
+  emailVerified DateTime? @map("email_verified")
+  accounts      Account[]
+  sessions      Session[]
+
   repositories Repository[]
   tips         Tip[]
 
   @@map("users")
+}
+
+// next-auth の prisma-adapter 用テーブル
+model Account {
+  id                String  @id @default(cuid())
+  userId            Int     @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       Int      @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verificationtokens")
 }
 
 model Repository {
