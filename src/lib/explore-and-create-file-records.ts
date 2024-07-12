@@ -1,7 +1,7 @@
-import { Octokit } from 'octokit';
+import { Octokit } from "octokit";
 
-import { excludedExtensions } from '@/lib/excluded-extensions';
-import prisma from '@/lib/prisma';
+import { excludedExtensions } from "@/lib/excluded-extensions";
+import prisma from "@/lib/prisma";
 
 const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 interface File {
@@ -31,14 +31,14 @@ export const exploreAndCreateFileRecords = async (userId: number, repositoryUrl:
 
 const recursiveExploreRepository = async (url: string, files: File[]) => {
   try {
-    const { data } = await octokit.request('GET ' + url);
+    const { data } = await octokit.request("GET " + url);
 
     const items = Array.isArray(data) ? data : [data];
 
     for (const item of items) {
-      if (item.type === 'dir') {
+      if (item.type === "dir") {
         await recursiveExploreRepository(item.url, files);
-      } else if (item.type === 'file' && item.download_url) {
+      } else if (item.type === "file" && item.download_url) {
         pushFileRecord(item, files);
       }
     }
