@@ -26,8 +26,6 @@ const directoryScanWorker = new Worker<DirectoryScanWorkerInputType>(
   async (job) => {
     const { repositoryUrl, userId } = job.data;
     await exploreAndCreateFileRecords(userId, repositoryUrl);
-
-    console.log(`directoryScanWorker finished for userId: ${userId}, repositoryUrl: ${repositoryUrl}`);
   },
   {
     concurrency: 5,
