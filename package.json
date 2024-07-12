@@ -11,8 +11,7 @@
     "lint:fix": "next lint --fix",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\" ",
     "prepare": "husky",
-    "sandbox": "tsx sandbox/main.ts",
-    "worker:sample": "dotenv -e .env.local -- npx tsx --watch src/workers/sample.worker.ts"
+    "sandbox": "tsx sandbox/main.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
