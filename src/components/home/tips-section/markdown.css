@@ -1,0 +1,56 @@
+.markdown h1, .markdown h2, .markdown h3, .markdown h4, .markdown h5, .markdown h6 {
+    margin: 1em 0 0.5em;
+    padding-bottom: 10px;
+    font-weight: bold;
+}
+.markdown h1 {
+    font-size: 2em;
+    border-bottom: 1px solid #333;
+}
+.markdown h2 {
+    font-size: 1.75em;
+    border-bottom: 1px solid #444;
+}
+.markdown h3 {
+    font-size: 1.5em;
+}
+.markdown h4 {
+    font-size: 1.25em;
+}
+.markdown h5 {
+    font-size: 1em;
+}
+.markdown h6 {
+    font-size: 0.875em;
+}
+.markdown ul, .markdown ol {
+    margin-left: 20px;
+    list-style:disc
+}
+.markdown ul ul, .markdown ul ol, .markdown ol ul, .markdown ol ol {
+    margin-left: 20px;
+    list-style-type: circle;
+}
+.markdown ul ul ul, .markdown ul ul ol, .markdown ul ol ul, .markdown ul ol ol, .markdown ol ul ul, .markdown ol ul ol, .markdown ol ol ul, .markdown ol ol ol {
+    list-style-type: square;
+}
+.markdown li {
+    margin-bottom: 0.5em;
+}
+.markdown p {
+    margin: 1em 0;
+}
+.markdown blockquote {
+    margin: 1em 0;
+    padding: 0.5em 1em;
+    background-color: #f9f9f9;
+    border-left: 5px solid #ccc;
+    color: #666;
+}
+.markdown a {
+    color: #0366d6;
+    text-decoration: none;
+}
+.markdown a:hover {
+    text-decoration: underline;
+}
