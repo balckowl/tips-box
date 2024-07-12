@@ -30,40 +30,6 @@ model User {
   @@map("users")
 }
 
-model Repository {
-  id     Int    @id @default(autoincrement()) @map("id")
-  user   User   @relation(fields: [userId], references: [id])
-  userId Int    @map("user_id")
-  url    String @map("url")
-  files  File[]
-
-  @@map("repositories")
-}
-
-model File {
-  id           Int        @id @default(autoincrement()) @map("id")
-  repository   Repository @relation(fields: [repositoryId], references: [id])
-  repositoryId Int        @map("repository_id")
-  path         String     @map("path")
-  downloadUrl  String     @map("download_url")
-  isTipTarget  Boolean    @map("is_tip_target")
-  tip          Tip?
-
-  @@map("files")
-}
-
-model Tip {
-  id      Int    @id @default(autoincrement()) @map("id")
-  file    File   @relation(fields: [fileId], references: [id])
-  fileId  Int    @unique @map("file_id")
-  user    User   @relation(fields: [userId], references: [id])
-  userId  Int    @map("user_id")
-  title   String @map("title")
-  content String @map("content")
-
-  @@map("tips")
-}
-
 // next-auth の prisma-adapter 用テーブル
 model Account {
   id                String  @id @default(cuid())
@@ -102,4 +68,38 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verificationtokens")
+}
+
+model Repository {
+  id     Int    @id @default(autoincrement()) @map("id")
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int    @map("user_id")
+  url    String @map("url")
+  files  File[]
+
+  @@map("repositories")
+}
+
+model File {
+  id           Int        @id @default(autoincrement()) @map("id")
+  repository   Repository @relation(fields: [repositoryId], references: [id])
+  repositoryId Int        @map("repository_id")
+  path         String     @map("path")
+  downloadUrl  String     @map("download_url")
+  isTipTarget  Boolean    @map("is_tip_target")
+  tip          Tip?
+
+  @@map("files")
+}
+
+model Tip {
+  id      Int    @id @default(autoincrement()) @map("id")
+  file    File   @relation(fields: [fileId], references: [id])
+  fileId  Int    @unique @map("file_id")
+  user    User   @relation(fields: [userId], references: [id])
+  userId  Int    @map("user_id")
+  title   String @map("title")
+  content String @map("content")
+
+  @@map("tips")
 }
