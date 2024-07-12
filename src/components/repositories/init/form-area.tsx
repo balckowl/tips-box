@@ -7,6 +7,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useRepositories } from "@/hooks/repository";
 
 const FormSchema = z.object({
   segment: z.string().min(1, {
@@ -22,8 +23,10 @@ export default function FormArea() {
     resolver: zodResolver(FormSchema),
   });
 
-  const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    console.log(data);
+  const { createRepositoryMutation } = useRepositories();
+
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    await createRepositoryMutation.trigger({ repositoryUrl: `/repos/${data.segment}/contents/` });
   };
 
   return (
