@@ -78,4 +78,7 @@ export const excludedExtensions = [
   '.yaml',
   '.yml',
   '.zip',
+  '.toml',
+  '.prettierrc',
+  '.svg',
 ];

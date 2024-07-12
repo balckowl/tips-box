@@ -1,6 +1,6 @@
 import { Octokit } from 'octokit';
 
-import { excludedExtensions } from '@/lib/excludedExtensions';
+import { excludedExtensions } from '@/lib/excluded-extensions';
 import prisma from '@/lib/prisma';
 
 const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
@@ -30,37 +30,24 @@ export const exploreAndCreateFileRecords = async (userId: number, repositoryUrl:
 };
 
 const recursiveExploreRepository = async (url: string, files: File[]) => {
-  let data;
   try {
-    const response = await octokit.request('GET ' + url);
-    data = response.data;
+    const { data } = await octokit.request('GET ' + url);
+
+    const items = Array.isArray(data) ? data : [data];
+
+    for (const item of items) {
+      if (item.type === 'dir') {
+        await recursiveExploreRepository(item.url, files);
+      } else if (item.type === 'file' && item.download_url) {
+        pushFileRecord(item, files);
+      }
+    }
+
+    return files;
   } catch (error) {
     console.error(error);
     return files;
   }
-  
-  if (Array.isArray(data)) {
-    for (const item of data) {
-      if (item.type === 'dir') {
-        await recursiveExploreRepository(item.url, files);
-      }
-
-      if (item.type === 'file' && item.download_url) {
-        pushFileRecord(item, files);
-      }
-    }
-  }
-
-  // dataが単数のとき
-  if (data.type === 'dir') {
-    await recursiveExploreRepository(data.url, files);
-  }
-
-  if (data.type === 'file' && data.download_url) {
-    pushFileRecord(data, files);
-  }
-
-  return files;
 };
 
 interface GitHubFileData {
@@ -69,10 +56,7 @@ interface GitHubFileData {
 }
 
 const pushFileRecord = (data: GitHubFileData, files: File[]) => {
-  let isTipTarget = true;
-  if (excludedExtensions.some((ext) => data.path.endsWith(ext))) {
-    isTipTarget = false;
-  }
+  const isTipTarget = excludedExtensions.every((ext) => !data.path.endsWith(ext));
 
   files.push({
     downloadUrl: data.download_url,
