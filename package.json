@@ -11,7 +11,9 @@
     "lint:fix": "next lint --fix",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\" ",
     "prepare": "husky",
-    "sandbox": "tsx sandbox/main.ts"
+    "sandbox": "tsx sandbox/main.ts",
+    "prisma:migrate:dev": "prisma migrate dev",
+    "setup": "docker compose up -d && npm install && npm run prisma:migrate:dev"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
