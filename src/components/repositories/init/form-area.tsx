@@ -24,7 +24,7 @@ const FormSchema = z.object({
         return data.repositoryExists;
       },
       {
-        message: "存在しません",
+        message: "リポジトリが存在しません",
       },
     ),
 });
@@ -37,6 +37,7 @@ export default function FormArea() {
     defaultValues: {
       segment: "",
     },
+    mode: "onBlur",
     resolver: zodResolver(FormSchema),
   });
 
@@ -69,6 +70,10 @@ export default function FormArea() {
                       {...field}
                       className="foucs: outline-none"
                       onPaste={handlePaste}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        form.clearErrors("segment");
+                      }}
                     />
                   </div>
                 </FormControl>
