@@ -1,13 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useRepositories } from "@/hooks/repository";
+import { useRepositoryMutation } from "@/hooks/repository";
 
 const FormSchema = z.object({
   segment: z.string().min(1, {
@@ -16,6 +17,7 @@ const FormSchema = z.object({
 });
 
 export default function FormArea() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     defaultValues: {
       segment: "",
@@ -23,10 +25,11 @@ export default function FormArea() {
     resolver: zodResolver(FormSchema),
   });
 
-  const { createRepositoryMutation } = useRepositories();
+  const { createRepositoryMutation } = useRepositoryMutation();
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     await createRepositoryMutation.trigger({ repositoryUrl: `/repos/${data.segment}/contents/` });
+    router.push("/home");
   };
 
   return (

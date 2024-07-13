@@ -2,7 +2,7 @@ import useSWRMutation from "swr/mutation";
 
 import { CreateRepositoryRequest } from "@/app/api/repositories/route";
 
-export const useRepositories = () => {
+export const useRepositoryMutation = () => {
   async function createRepository(url: string, { arg }: { arg: CreateRepositoryRequest }) {
     const { repositoryUrl } = arg;
     await fetch(url, {
