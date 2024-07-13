@@ -2,6 +2,7 @@ import { Queue, Worker } from "bullmq";
 import Redis from "ioredis";
 
 import { exploreAndCreateFileRecords } from "@/lib/explore-and-create-file-records";
+import { generateTip } from "@/lib/generate-tip";
 
 const connection = new Redis(process.env.REDIS_URL!, { maxRetriesPerRequest: null });
 
@@ -26,6 +27,9 @@ const directoryScanWorker = new Worker<DirectoryScanWorkerInputType>(
   async (job) => {
     const { repositoryId, repositoryPathForOctokit } = job.data;
     await exploreAndCreateFileRecords(repositoryPathForOctokit, repositoryId);
+    for (let i = 0; i < 5; i++) {
+      await generateTip();
+    }
   },
   {
     concurrency: 5,

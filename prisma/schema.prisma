@@ -28,7 +28,6 @@ model User {
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
   repositories Repository[]
-  tips         Tip[]
 
   @@map("users")
 }
@@ -83,6 +82,7 @@ model Repository {
 
   files File[]
 
+  @@index([userId])
   @@map("repositories")
 }
 
@@ -98,6 +98,7 @@ model File {
 
   tip Tip?
 
+  @@index([repositoryId])
   @@map("files")
 }
 
@@ -105,8 +106,6 @@ model Tip {
   id        Int      @id @default(autoincrement()) @map("id")
   file      File     @relation(fields: [fileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   fileId    Int      @unique @map("file_id")
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId    Int      @map("user_id")
   title     String   @map("title")
   content   String   @map("content")
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
@@ -114,6 +113,7 @@ model Tip {
 
   TipRead TipRead[]
 
+  @@index([fileId])
   @@map("tips")
 }
 
@@ -125,5 +125,6 @@ model TipRead {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
+  @@index([tipId])
   @@map("tip_reads")
 }
