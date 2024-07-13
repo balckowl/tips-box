@@ -1,9 +1,9 @@
 import useSWRMutation from "swr/mutation";
 
-import { CreateRepositoryRequest } from "@/app/api/repositories/route";
+import { CreateRepositoryRequest } from "@/app/api/v1/repositories/init/route";
 
 export const useRepositoryMutation = () => {
-  async function createRepository(url: string, { arg }: { arg: CreateRepositoryRequest }) {
+  async function initRepository(url: string, { arg }: { arg: CreateRepositoryRequest }) {
     const { repositoryUrl } = arg;
     await fetch(url, {
       body: JSON.stringify({
@@ -13,9 +13,9 @@ export const useRepositoryMutation = () => {
     });
   }
 
-  const createRepositoryMutation = useSWRMutation("/api/repositories", createRepository);
+  const initRepositoryMutation = useSWRMutation("/api/v1/repositories/init", initRepository);
 
   return {
-    createRepositoryMutation,
+    initRepositoryMutation,
   };
 };

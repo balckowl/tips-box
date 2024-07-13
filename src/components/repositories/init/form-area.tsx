@@ -8,6 +8,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { GITHUB_URL } from "@/const/url";
 import { useRepositoryMutation } from "@/hooks/repository";
 
 const FormSchema = z.object({
@@ -25,10 +26,10 @@ export default function FormArea() {
     resolver: zodResolver(FormSchema),
   });
 
-  const { createRepositoryMutation } = useRepositoryMutation();
+  const { initRepositoryMutation } = useRepositoryMutation();
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    await createRepositoryMutation.trigger({ repositoryUrl: `/repos/${data.segment}/contents/` });
+    await initRepositoryMutation.trigger({ repositoryUrl: `${GITHUB_URL}${data.segment}` });
     router.push("/home");
   };
 
@@ -43,7 +44,7 @@ export default function FormArea() {
               <FormItem>
                 <FormControl>
                   <div className="flex flex-col gap-1 lg:flex-row lg:items-center">
-                    <p>https://github.com/</p>
+                    <p>{GITHUB_URL}</p>
                     <Input placeholder="{username}/{repositoryname}" {...field} className="foucs: outline-none" />
                   </div>
                 </FormControl>

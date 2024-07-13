@@ -6,7 +6,7 @@ import { exploreAndCreateFileRecords } from "@/lib/explore-and-create-file-recor
 const connection = new Redis(process.env.REDIS_URL!, { maxRetriesPerRequest: null });
 
 export type DirectoryScanWorkerInputType = {
-  repositoryUrl: string;
+  repositoryPath: string;
   userId: number;
 };
 
@@ -24,8 +24,8 @@ export const directoryScanQueue = new Queue<DirectoryScanWorkerInputType>("direc
 const directoryScanWorker = new Worker<DirectoryScanWorkerInputType>(
   "directoryScanQueue",
   async (job) => {
-    const { repositoryUrl, userId } = job.data;
-    await exploreAndCreateFileRecords(userId, repositoryUrl);
+    const { repositoryPath, userId } = job.data;
+    await exploreAndCreateFileRecords(userId, repositoryPath);
   },
   {
     concurrency: 5,
