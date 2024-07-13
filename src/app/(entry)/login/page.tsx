@@ -11,16 +11,14 @@ import { authenticateUser } from "@/lib/authenticate-user";
 export default async function Page() {
   const sessionUser = await authenticateUser();
 
-  if (!sessionUser) redirect("/login");
+  if (sessionUser) {
+    const userRepositoryCount = await getRepositoryCount(sessionUser.id);
 
-  const { id } = sessionUser;
-
-  const userRepoCount = await getRepositoryCount(id);
-
-  if (!userRepoCount) {
-    redirect("/repositories/init");
-  } else {
-    redirect("/home");
+    if (userRepositoryCount === 0) {
+      redirect("/repositories/init");
+    } else {
+      redirect("/home");
+    }
   }
 
   return (

@@ -10,21 +10,19 @@ interface File {
   path: string;
 }
 
-export const exploreAndCreateFileRecords = async (userId: number, repositoryUrl: string) => {
-  const files: File[] = await recursiveExploreRepository(repositoryUrl, []);
+/**
+ * repositoryPathForOctokit は以下のような形式であることが期待される
+ * /repos/:owner/:repo/contents
+ */
+export const exploreAndCreateFileRecords = async (repositoryPathForOctokit: string, repositoryId: number) => {
+  const files: File[] = await recursiveExploreRepository(repositoryPathForOctokit, []);
 
-  const repository = await prisma.repository.create({
-    data: {
-      url: repositoryUrl,
-      userId: userId,
-    },
-  });
   await prisma.file.createMany({
     data: files.map((file) => ({
       downloadUrl: file.downloadUrl,
       isTipTarget: file.isTipTarget,
       path: file.path,
-      repositoryId: repository.id,
+      repositoryId: repositoryId,
     })),
   });
 };

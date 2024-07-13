@@ -1,13 +1,13 @@
 import prisma from "@/lib/prisma";
 
 async function getRepositoryCount(userId: number) {
-  const userRepocount = await prisma.repository.count({
+  const userRepositoryCount = await prisma.repository.count({
     where: {
       userId,
     },
   });
 
-  return userRepocount;
+  return userRepositoryCount;
 }
 
 export { getRepositoryCount };

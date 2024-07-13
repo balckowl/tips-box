@@ -8,14 +8,10 @@ import { authenticateUser } from "@/lib/authenticate-user";
 
 export default async function Page() {
   const sessionUser = await authenticateUser();
-
   if (!sessionUser) redirect("/login");
 
-  const { id } = sessionUser;
-
-  const userRepoCount = await getRepositoryCount(id);
-
-  if (userRepoCount) return redirect("/home");
+  const userRepositoryCount = await getRepositoryCount(sessionUser.id);
+  if (userRepositoryCount > 0) return redirect("/home");
 
   return (
     <div className="flex h-screen">

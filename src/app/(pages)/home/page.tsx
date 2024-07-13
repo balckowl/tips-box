@@ -15,9 +15,8 @@ export default async function Page() {
 
   const { id, name, image } = sessionUser;
 
-  const userRepoCount = await getRepositoryCount(id);
-
-  if (!userRepoCount) redirect("/repositories/init");
+  const userRepositoryCount = await getRepositoryCount(id);
+  if (userRepositoryCount === 0) redirect("/repositories/init");
 
   return (
     <div className="min-h-[calc(100vh-60px-60px)]">
@@ -28,7 +27,13 @@ export default async function Page() {
           {tipsList.length > 0 && (
             <div className="w-full space-y-4 xl:w-[70%]">
               {DAMMYDATA.map((item, index) => (
-                <Card key={index} title={item.title} content={item.content} createdAt={item.createdAt} />
+                <Card
+                  key={index}
+                  title={item.title}
+                  content={item.content}
+                  createdAt={item.createdAt}
+                  repoUrl={item.repoUrl}
+                />
               ))}
             </div>
           )}
