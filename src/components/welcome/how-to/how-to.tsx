@@ -9,7 +9,7 @@ export default function HowTo() {
         <div className="w-[90%] space-y-3 md:w-[70%]">
           <div className="space-y-3">
             <h3 className="text-[2.0rem] font-bold">Tips Boxの使い方</h3>
-            <p>Tips Boxは以下の3ステップで簡単に始めることができます。</p>
+            <p>Tips Boxは以下の4ステップで簡単に始めることができます。</p>
           </div>
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
             {HOWTOLIST.map((item) => (
