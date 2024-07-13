@@ -29,6 +29,7 @@
     "bullmq": "^5.8.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "date-fns": "^3.6.0",
     "eslint": "^8.57.0",
     "framer-motion": "^11.3.2",
     "ioredis": "^5.4.1",

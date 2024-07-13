@@ -27,7 +27,7 @@ export default async function Page() {
             <WaitTips />
           ) : (
             tipsList.length > 0 && (
-              <div className="w-full space-y-4 xl:w-[70%]">
+              <div className="w-full space-y-4 xl:w-[65%]">
                 {tipsList.map((item, index) => (
                   <Tip
                     key={index}
