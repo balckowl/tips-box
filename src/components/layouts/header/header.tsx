@@ -1,13 +1,10 @@
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { authenticateUser } from "@/lib/authenticate-user";
 
 import { ModeToggle } from "./mode-toggle";
 
-export default async function Header() {
-  const sessionUser = await authenticateUser();
-
+export default function Header() {
   return (
     <header className="h-[60px]">
       <div className="container flex h-full items-center justify-between">
@@ -15,11 +12,9 @@ export default async function Header() {
           <h1 className="text-[20px] font-bold">Tips Box</h1>
         </Link>
         <div className="flex items-center gap-3">
-          {!sessionUser && (
-            <Button asChild>
-              <Link href="/login">はじめる</Link>
-            </Button>
-          )}
+          <Button asChild>
+            <Link href="/login">はじめる</Link>
+          </Button>
           <ModeToggle />
         </div>
       </div>

@@ -2,25 +2,17 @@ import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 
 import LoginImg from "@/assets/login-visual.webp";
 import SignInBtn from "@/components/login/sign-in-btn";
-import { getRepositoryCount } from "@/data/repository";
-import { authenticateUser } from "@/lib/authenticate-user";
+import { authOptions } from "@/lib/auth-option";
 
 export default async function Page() {
-  const sessionUser = await authenticateUser();
+  const session = await getServerSession(authOptions);
 
-  if (!sessionUser) redirect("/login");
-
-  const { id } = sessionUser;
-
-  const userRepoCount = await getRepositoryCount(id);
-
-  if (!userRepoCount) {
-    redirect("/repositories/init");
-  } else {
-    redirect("/home");
+  if (session) {
+    redirect("/");
   }
 
   return (

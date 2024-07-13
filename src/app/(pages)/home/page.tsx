@@ -1,23 +1,10 @@
-import { redirect } from "next/navigation";
-
 import Sidebar from "@/components/home/sidebar";
 import Card from "@/components/home/tips-section/card";
 import WaitTips from "@/components/home/tips-section/wait-tips";
 import { DAMMYDATA } from "@/const/home";
-import { getRepositoryCount } from "@/data/repository";
-import { authenticateUser } from "@/lib/authenticate-user";
 
-export default async function Page() {
-  const sessionUser = await authenticateUser();
+export default function Page() {
   const tipsList = [];
-
-  if (!sessionUser) redirect("/login");
-
-  const { id, name, image } = sessionUser;
-
-  const userRepoCount = await getRepositoryCount(id);
-
-  if (!userRepoCount) redirect("/repositories/init");
 
   return (
     <div className="min-h-[calc(100vh-60px-60px)]">
@@ -32,7 +19,7 @@ export default async function Page() {
               ))}
             </div>
           )}
-          {image && name && <Sidebar photoUrl={image} username={name} />}
+          <Sidebar />
         </div>
       </div>
     </div>
