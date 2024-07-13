@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -10,6 +11,8 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } 
 import { Input } from "@/components/ui/input";
 import { GITHUB_URL } from "@/const/url";
 import { useRepositoryMutation } from "@/hooks/repository";
+
+import Spinner from "./spinner";
 
 const FormSchema = z.object({
   segment: z
@@ -34,6 +37,7 @@ const FormSchema = z.object({
 export default function FormArea() {
   const router = useRouter();
   const { initRepositoryMutation } = useRepositoryMutation();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     defaultValues: {
@@ -44,7 +48,9 @@ export default function FormArea() {
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    setIsLoading(true);
     await initRepositoryMutation.trigger({ repositoryUrl: `${GITHUB_URL}${data.segment}` });
+    setIsLoading(false);
     router.push("/home");
   };
 
@@ -86,7 +92,9 @@ export default function FormArea() {
               </FormItem>
             )}
           />
-          <Button type="submit">送信する</Button>
+          <Button type="submit" disabled={isLoading} className="flex w-[90px] items-center justify-center">
+            {isLoading ? <Spinner /> : "送信する"}
+          </Button>
         </form>
       </Form>
     </div>
