@@ -11,7 +11,9 @@ export default function Hero() {
         <div className="flex w-[90%] flex-col items-center gap-2 md:w-[70%] lg:flex-row lg:gap-10">
           <div className="order-2 space-y-5 lg:order-1">
             <h2 className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-[2.5rem] font-bold text-transparent">
-              過去のコードから、まだ見ぬ技術を
+              過去のコードから
+              <br />
+              まだ見ぬ技術を
             </h2>
             <p className="text-[1rem]">ご自身のGitHubリポジトリから、毎日ランダムなtipsをお届けします。</p>
             <Button asChild>
