@@ -29,6 +29,16 @@ export const exploreAndCreateFileRecords = async (userId: number, repositoryUrl:
   });
 };
 
+export const doesRepositoryExistInGitHub = async (repositoryUrl: string) => {
+  try {
+    const { data } = await octokit.request("GET " + repositoryUrl);
+    return data ? true : false;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+
 const recursiveExploreRepository = async (url: string, files: File[]) => {
   try {
     const { data } = await octokit.request("GET " + url);

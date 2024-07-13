@@ -12,13 +12,27 @@ import { GITHUB_URL } from "@/const/url";
 import { useRepositoryMutation } from "@/hooks/repository";
 
 const FormSchema = z.object({
-  segment: z.string().min(1, {
-    message: "必要な値が入力されていません",
-  }),
+  segment: z
+    .string()
+    .min(1, {
+      message: "必要な値が入力されていません",
+    })
+    .refine(
+      async (value) => {
+        const response = await fetch(`/api/v1/repositories/validate?url=${GITHUB_URL}${value}`);
+        const data = await response.json();
+        return data.repositoryExists;
+      },
+      {
+        message: "存在しません",
+      },
+    ),
 });
 
 export default function FormArea() {
   const router = useRouter();
+  const { initRepositoryMutation } = useRepositoryMutation();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     defaultValues: {
       segment: "",
@@ -26,11 +40,16 @@ export default function FormArea() {
     resolver: zodResolver(FormSchema),
   });
 
-  const { initRepositoryMutation } = useRepositoryMutation();
-
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     await initRepositoryMutation.trigger({ repositoryUrl: `${GITHUB_URL}${data.segment}` });
     router.push("/home");
+  };
+
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const pastedText = e.clipboardData.getData("text");
+    const trimmedText = pastedText.startsWith(GITHUB_URL) ? pastedText.slice(GITHUB_URL.length) : pastedText;
+    form.setValue("segment", trimmedText);
   };
 
   return (
@@ -45,7 +64,12 @@ export default function FormArea() {
                 <FormControl>
                   <div className="flex flex-col gap-1 lg:flex-row lg:items-center">
                     <p>{GITHUB_URL}</p>
-                    <Input placeholder="{username}/{repositoryname}" {...field} className="foucs: outline-none" />
+                    <Input
+                      placeholder="{username}/{repositoryname}"
+                      {...field}
+                      className="foucs: outline-none"
+                      onPaste={handlePaste}
+                    />
                   </div>
                 </FormControl>
                 <FormDescription className="text-[0.7rem]">
