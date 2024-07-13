@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
+import LogoutBtn from "./logout-btn";
 import { ModeToggle } from "./mode-toggle";
 
 export default function Header() {
@@ -15,6 +16,7 @@ export default function Header() {
           <Button asChild>
             <Link href="/login">はじめる</Link>
           </Button>
+          <LogoutBtn />
           <ModeToggle />
         </div>
       </div>
