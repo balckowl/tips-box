@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { authenticateUser } from "@/lib/authenticate-user";
-import { doesRepositoryExistInGitHub } from "@/lib/explore-and-create-file-records";
+import { doesRepositoryExistInGitHub } from "@/lib/does-repository-exists-in-github";
 
 export type ValidateRepositoryRequest = {
   url: string;

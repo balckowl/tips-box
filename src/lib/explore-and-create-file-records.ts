@@ -1,9 +1,8 @@
-import { Octokit } from "octokit";
-
 import { excludedExtensions } from "@/lib/excluded-extensions";
 import prisma from "@/lib/prisma";
 
-const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+import { octokit } from "./octokit";
+
 interface File {
   downloadUrl: string;
   isTipTarget: boolean;
@@ -25,16 +24,6 @@ export const exploreAndCreateFileRecords = async (repositoryPathForOctokit: stri
       repositoryId: repositoryId,
     })),
   });
-};
-
-export const doesRepositoryExistInGitHub = async (repositoryUrl: string) => {
-  try {
-    const { data } = await octokit.request("GET " + repositoryUrl);
-    return data ? true : false;
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
 };
 
 const recursiveExploreRepository = async (url: string, files: File[]) => {
