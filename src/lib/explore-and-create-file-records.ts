@@ -14,8 +14,8 @@ interface File {
  * repositoryPathForOctokit は以下のような形式であることが期待される
  * /repos/:owner/:repo/contents
  */
-export const exploreAndCreateFileRecords = async (repositoryPath: string, repositoryId: number) => {
-  const files: File[] = await recursiveExploreRepository(repositoryPath, []);
+export const exploreAndCreateFileRecords = async (repositoryPathForOctokit: string, repositoryId: number) => {
+  const files: File[] = await recursiveExploreRepository(repositoryPathForOctokit, []);
 
   await prisma.file.createMany({
     data: files.map((file) => ({
