@@ -22,8 +22,7 @@ const FormSchema = z.object({
         const response = await fetch(
           `/api/v1/repositories/validate?url=${encodeURIComponent(`${GITHUB_URL}${value}`)}`,
         );
-        const data = await response.json();
-        const { repositoryExists } = data;
+        const { repositoryExists } = await response.json();
         return repositoryExists;
       },
       {
