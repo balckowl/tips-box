@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { GITHUB_URL } from "@/const/url";
 import { authenticateUser } from "@/lib/authenticate-user";
+import prisma from "@/lib/prisma";
 import { directoryScanQueue } from "@/workers/directory-scan.worker";
 
 export type CreateRepositoryRequest = {
@@ -22,7 +23,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "repositoryUrl is required" }, { status: 400 });
   }
 
-  const userAndRepoSegment = repositoryUrl.replace(GITHUB_URL, "");
+  const repository = await prisma.repository.create({
+    data: {
+      url: repositoryUrl,
+      userId: sessionUser.id,
+    },
+  });
+
+  const userAndRepoSegment = repository.url.replace(GITHUB_URL, "");
   const repositoryPath = `/repos/${userAndRepoSegment}/contents`;
 
   try {
