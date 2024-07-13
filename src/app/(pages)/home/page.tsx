@@ -28,7 +28,13 @@ export default async function Page() {
           {tipsList.length > 0 && (
             <div className="w-full space-y-4 xl:w-[70%]">
               {DAMMYDATA.map((item, index) => (
-                <Card key={index} title={item.title} content={item.content} createdAt={item.createdAt} />
+                <Card
+                  key={index}
+                  title={item.title}
+                  content={item.content}
+                  createdAt={item.createdAt}
+                  repoUrl={item.repoUrl}
+                />
               ))}
             </div>
           )}
