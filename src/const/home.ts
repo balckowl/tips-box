@@ -40,5 +40,6 @@ const birthYear = 1995;
 ~~~
 `,
     createdAt: "2024/07/13",
+    repoUrl: "https://github.com/balckowl/tips-box/blob/main/src/components/welcome/how-to/card.tsx",
   },
 ];

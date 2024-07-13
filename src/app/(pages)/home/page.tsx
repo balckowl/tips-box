@@ -1,10 +1,22 @@
+import { redirect } from "next/navigation";
+
 import Sidebar from "@/components/home/sidebar";
 import Card from "@/components/home/tips-section/card";
 import WaitTips from "@/components/home/tips-section/wait-tips";
 import { DAMMYDATA } from "@/const/home";
+import { getRepositoryCount } from "@/data/repository";
+import { authenticateUser } from "@/lib/authenticate-user";
 
-export default function Page() {
+export default async function Page() {
+  const sessionUser = await authenticateUser();
   const tipsList = [];
+
+  if (!sessionUser) redirect("/login");
+
+  const { id, name, image } = sessionUser;
+
+  const userRepositoryCount = await getRepositoryCount(id);
+  if (userRepositoryCount === 0) redirect("/repositories/init");
 
   return (
     <div className="min-h-[calc(100vh-60px-60px)]">
@@ -15,11 +27,17 @@ export default function Page() {
           {tipsList.length > 0 && (
             <div className="w-full space-y-4 xl:w-[70%]">
               {DAMMYDATA.map((item, index) => (
-                <Card key={index} title={item.title} content={item.content} createdAt={item.createdAt} />
+                <Card
+                  key={index}
+                  title={item.title}
+                  content={item.content}
+                  createdAt={item.createdAt}
+                  repoUrl={item.repoUrl}
+                />
               ))}
             </div>
           )}
-          <Sidebar />
+          {image && name && <Sidebar photoUrl={image} username={name} />}
         </div>
       </div>
     </div>

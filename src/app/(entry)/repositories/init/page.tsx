@@ -1,9 +1,18 @@
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 import RepoImg from "@/assets/repository-visual.webp";
 import FormArea from "@/components/repositories/init/form-area";
+import { getRepositoryCount } from "@/data/repository";
+import { authenticateUser } from "@/lib/authenticate-user";
 
-export default function Page() {
+export default async function Page() {
+  const sessionUser = await authenticateUser();
+  if (!sessionUser) redirect("/login");
+
+  const userRepositoryCount = await getRepositoryCount(sessionUser.id);
+  if (userRepositoryCount > 0) return redirect("/home");
+
   return (
     <div className="flex h-screen">
       <div className="hidden lg:block lg:w-[35%]">
