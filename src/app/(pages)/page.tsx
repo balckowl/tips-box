@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 import About from "@/components/welcome/about";
-import Hero from "@/components/welcome/hero";
+import Hero from "@/components/welcome/hero/hero";
 import HowTo from "@/components/welcome/how-to/how-to";
 import Start from "@/components/welcome/start";
 import { getRepositoryCount } from "@/data/repository";
