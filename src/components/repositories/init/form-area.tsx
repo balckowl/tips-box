@@ -23,8 +23,8 @@ const FormSchema = z.object({
           `/api/v1/repositories/validate?url=${encodeURIComponent(`${GITHUB_URL}${value}`)}`,
         );
         const data = await response.json();
-const {repositoryExists} = data
-return repositoryExists
+        const { repositoryExists } = data;
+        return repositoryExists;
       },
       {
         message: "リポジトリが存在しません",
