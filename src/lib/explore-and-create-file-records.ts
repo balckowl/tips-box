@@ -1,4 +1,3 @@
-import { Repository } from "@prisma/client";
 import { Octokit } from "octokit";
 
 import { excludedExtensions } from "@/lib/excluded-extensions";
@@ -11,15 +10,15 @@ interface File {
   path: string;
 }
 
-export const exploreAndCreateFileRecords = async (userId: number, repository: Repository) => {
-  const files: File[] = await recursiveExploreRepository(repository.url, []);
+export const exploreAndCreateFileRecords = async (repositoryPath: string, repositoryId: number) => {
+  const files: File[] = await recursiveExploreRepository(repositoryPath, []);
 
   await prisma.file.createMany({
     data: files.map((file) => ({
       downloadUrl: file.downloadUrl,
       isTipTarget: file.isTipTarget,
       path: file.path,
-      repositoryId: repository.id,
+      repositoryId: repositoryId,
     })),
   });
 };

@@ -34,7 +34,7 @@ export async function POST(req: Request) {
   const repositoryPath = `/repos/${userAndRepoSegment}/contents`;
 
   try {
-    await directoryScanQueue.add("directoryScan", { repositoryPath, userId: sessionUser.id });
+    await directoryScanQueue.add("directoryScan", { repositoryId: repository.id, repositoryPath });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
