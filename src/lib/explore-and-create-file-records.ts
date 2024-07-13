@@ -1,9 +1,8 @@
-import { Octokit } from "octokit";
-
 import { excludedExtensions } from "@/lib/excluded-extensions";
 import prisma from "@/lib/prisma";
 
-const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+import { octokit } from "./octokit";
+
 interface File {
   downloadUrl: string;
   isTipTarget: boolean;
