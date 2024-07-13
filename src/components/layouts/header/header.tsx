@@ -16,9 +16,6 @@ export default async function Header() {
           <h1 className="text-[20px] font-bold">Tips Box</h1>
         </Link>
         <div className="flex items-center gap-3">
-          <Button asChild>
-            <Link href="/login">はじめる</Link>
-          </Button>
           {sessionUser ? (
             <LogoutBtn />
           ) : (
