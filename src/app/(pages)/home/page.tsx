@@ -16,7 +16,7 @@ export default async function Page() {
   const { id, name, image } = sessionUser;
 
   const userRepositoryCount = await getRepositoryCount(id);
-  if (!userRepositoryCount) redirect("/repositories/init");
+  if (userRepositoryCount === 0) redirect("/repositories/init");
 
   return (
     <div className="min-h-[calc(100vh-60px-60px)]">

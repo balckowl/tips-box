@@ -13,7 +13,7 @@ export default async function Home() {
   if (sessionUser) {
     const userRepositoryCount = await getRepositoryCount(sessionUser.id);
 
-    if (!userRepositoryCount) {
+    if (userRepositoryCount === 0) {
       redirect("/repositories/init");
     } else {
       redirect("/home");

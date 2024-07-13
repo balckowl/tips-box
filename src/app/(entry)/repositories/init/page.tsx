@@ -11,7 +11,7 @@ export default async function Page() {
   if (!sessionUser) redirect("/login");
 
   const userRepositoryCount = await getRepositoryCount(sessionUser.id);
-  if (userRepositoryCount) return redirect("/home");
+  if (userRepositoryCount > 0) return redirect("/home");
 
   return (
     <div className="flex h-screen">
