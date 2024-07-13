@@ -121,7 +121,7 @@ model TipRead {
   id        Int      @id @default(autoincrement()) @map("id")
   tip       Tip      @relation(fields: [tipId], references: [id])
   tipId     Int      @map("tip_id")
-  readAt    DateTime @map("read_at") // クライアント側で読了記録した時間を格納するので、データベースのnow()ではない
+  readAt    DateTime @map("read_at") @db.Timestamptz // クライアント側で読了記録した時間を格納するので、データベースのnow()ではない
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
