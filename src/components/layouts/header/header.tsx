@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { authenticateUser } from "@/lib/authenticate-user";
 
+import LogoutBtn from "./logout-btn";
 import { ModeToggle } from "./mode-toggle";
 
 export default async function Header() {
@@ -20,6 +21,7 @@ export default async function Header() {
               <Link href="/login">はじめる</Link>
             </Button>
           )}
+          {sessionUser && <LogoutBtn />}
           <ModeToggle />
         </div>
       </div>
