@@ -1,5 +1,6 @@
 import "./markdown.css";
 
+import { format } from "date-fns";
 import ReactMarkdown from "react-markdown";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -7,28 +8,30 @@ import { LinkPreview } from "@/components/ui/link-preview";
 
 import CodeBlock from "./code-block";
 
-interface Props {
+export interface TipProps {
   title: string;
+  codeUrl: string;
   content: string;
   createdAt: string;
-  repoUrl: string;
 }
 
-export default function Card({ title, content, createdAt, repoUrl }: Props) {
+export default function Tip({ title, codeUrl, content, createdAt }: TipProps) {
+  const createdDate = format(createdAt, "yyyy/MM/dd");
+
   return (
     <div>
       <div className="rounded-t-lg border p-5 lg:p-10">
         <div className="mb-[7px] flex items-center gap-2 text-[13px] text-[#aaa]">
-          <time>{createdAt}</time>
+          <time>{createdDate}</time>
           <p>今日のtips</p>
         </div>
         <h3 className="mb-[10px] text-[1.7rem] font-bold">{title}</h3>
         <div className="flex items-center gap-2">
           <LinkPreview
-            url={repoUrl}
+            url={codeUrl}
             className="bg-gradient-to-br from-purple-500 to-pink-500 bg-clip-text font-bold text-transparent"
           >
-            {repoUrl}
+            {codeUrl}
           </LinkPreview>
         </div>
       </div>

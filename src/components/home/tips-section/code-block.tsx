@@ -13,8 +13,13 @@ const CodeBlock = ({ children, className, inline }: Props) => {
     return <code className={className}>{children}</code>;
   }
   const match = /language-(\w+)/.exec(className || "");
-  const lang = match && match[1] ? match[1] : "";
-  return <SyntaxHighlighter style={vscDarkPlus} language={lang} children={String(children).replace(/\n$/, "")} />;
+  return !inline && match ? (
+    <SyntaxHighlighter style={vscDarkPlus} language={match[1]} PreTag="div">
+      {String(children).replace(/\n$/, "")}
+    </SyntaxHighlighter>
+  ) : (
+    <code className="rounded-[2px] bg-muted px-[4px] py-px text-red-400">{children}</code>
+  );
 };
 
 export default CodeBlock;
