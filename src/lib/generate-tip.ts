@@ -6,10 +6,13 @@ const openai = new OpenAI({
   apiKey: process.env["OPENAI_API_KEY"], // This is the default and can be omitted
 });
 
-export const generateTip = async () => {
+export const generateTip = async (userId: number) => {
   const targetFiles = await prisma.file.findMany({
     where: {
       isTipTarget: true,
+      repository: {
+        userId: userId,
+      },
       tip: {
         is: null,
       },
@@ -67,6 +70,7 @@ export const generateTip = async () => {
     ],
     model: "gpt-4o",
   });
+  const title = titleCompletion.choices[0].message.content;
   const contentCompletion = await openai.chat.completions.create({
     messages: [
       { content: contentSystemPrompt, role: "system" },
@@ -74,11 +78,16 @@ export const generateTip = async () => {
     ],
     model: "gpt-4o",
   });
+  const content = contentCompletion.choices[0].message.content;
+
+  if (!title || !content) {
+    throw new Error("Failed to generate tip: title or content is null");
+  }
 
   await prisma.tip.create({
     data: {
-      title: titleCompletion.choices[0].message.content,
-      content: contentCompletion.choices[0].message.content,
+      title: title,
+      content: content,
       file: {
         connect: {
           id: targetFile.id,

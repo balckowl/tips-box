@@ -6,12 +6,13 @@ import { generateTip } from "@/lib/generate-tip";
 
 const connection = new Redis(process.env.REDIS_URL!, { maxRetriesPerRequest: null });
 
-export type DirectoryScanWorkerInputType = {
+export type RepositoryInitWorkerInputType = {
   repositoryId: number;
   repositoryPathForOctokit: string;
+  userId: number;
 };
 
-export const directoryScanQueue = new Queue<DirectoryScanWorkerInputType>("directoryScanQueue", {
+export const repositoryInitQueue = new Queue<RepositoryInitWorkerInputType>("repositoryInitQueue", {
   connection,
   defaultJobOptions: {
     attempts: 2,
@@ -22,13 +23,13 @@ export const directoryScanQueue = new Queue<DirectoryScanWorkerInputType>("direc
   },
 });
 
-const directoryScanWorker = new Worker<DirectoryScanWorkerInputType>(
-  "directoryScanQueue",
+const repositoryInitWorker = new Worker<RepositoryInitWorkerInputType>(
+  "repositoryInitQueue",
   async (job) => {
-    const { repositoryId, repositoryPathForOctokit } = job.data;
+    const { repositoryId, repositoryPathForOctokit, userId } = job.data;
     await exploreAndCreateFileRecords(repositoryPathForOctokit, repositoryId);
     for (let i = 0; i < 5; i++) {
-      await generateTip();
+      await generateTip(userId);
     }
   },
   {
@@ -39,4 +40,4 @@ const directoryScanWorker = new Worker<DirectoryScanWorkerInputType>(
   },
 );
 
-export default directoryScanWorker;
+export default repositoryInitWorker;

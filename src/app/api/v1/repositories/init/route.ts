@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { GITHUB_URL } from "@/const/url";
 import { authenticateUser } from "@/lib/authenticate-user";
 import prisma from "@/lib/prisma";
-import { directoryScanQueue } from "@/workers/directory-scan.worker";
+import { repositoryInitQueue } from "@/workers/repository-init.worker";
 
 export type CreateRepositoryRequest = {
   repositoryUrl: string;
@@ -34,7 +34,11 @@ export async function POST(req: Request) {
   const repositoryPathForOctokit = `/repos/${userAndRepoSegment}/contents`;
 
   try {
-    await directoryScanQueue.add("directoryScan", { repositoryId: repository.id, repositoryPathForOctokit });
+    await repositoryInitQueue.add("repositoryInit", {
+      repositoryId: repository.id,
+      repositoryPathForOctokit,
+      userId: sessionUser.id,
+    });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
