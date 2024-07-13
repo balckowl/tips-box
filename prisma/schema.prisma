@@ -48,7 +48,7 @@ model Account {
   id_token          String? @db.Text
   session_state     String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@unique([provider, providerAccountId])
   @@map("accounts")
@@ -59,7 +59,7 @@ model Session {
   sessionToken String   @unique @map("session_token")
   userId       Int      @map("user_id")
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("sessions")
 }
@@ -75,7 +75,7 @@ model VerificationToken {
 
 model Repository {
   id        Int      @id @default(autoincrement()) @map("id")
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId    Int      @map("user_id")
   url       String   @map("url")
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
@@ -88,7 +88,7 @@ model Repository {
 
 model File {
   id           Int        @id @default(autoincrement()) @map("id")
-  repository   Repository @relation(fields: [repositoryId], references: [id])
+  repository   Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   repositoryId Int        @map("repository_id")
   path         String     @map("path")
   downloadUrl  String     @map("download_url")
@@ -103,9 +103,9 @@ model File {
 
 model Tip {
   id        Int      @id @default(autoincrement()) @map("id")
-  file      File     @relation(fields: [fileId], references: [id])
+  file      File     @relation(fields: [fileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   fileId    Int      @unique @map("file_id")
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId    Int      @map("user_id")
   title     String   @map("title")
   content   String   @map("content")
@@ -119,7 +119,7 @@ model Tip {
 
 model TipRead {
   id        Int      @id @default(autoincrement()) @map("id")
-  tip       Tip      @relation(fields: [tipId], references: [id])
+  tip       Tip      @relation(fields: [tipId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   tipId     Int      @map("tip_id")
   readAt    DateTime @map("read_at") @db.Timestamptz // クライアント側で読了記録した時間を格納するので、データベースのnow()ではない
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
