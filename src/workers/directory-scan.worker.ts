@@ -5,9 +5,13 @@ import { exploreAndCreateFileRecords } from "@/lib/explore-and-create-file-recor
 
 const connection = new Redis(process.env.REDIS_URL!, { maxRetriesPerRequest: null });
 
+/**
+ * repositoryPathForOctokit は以下のような形式であることが期待される
+ * /repos/:owner/:repo/contents
+ */
 export type DirectoryScanWorkerInputType = {
   repositoryId: number;
-  repositoryPath: string;
+  repositoryPathForOctokit: string;
 };
 
 export const directoryScanQueue = new Queue<DirectoryScanWorkerInputType>("directoryScanQueue", {
@@ -24,8 +28,8 @@ export const directoryScanQueue = new Queue<DirectoryScanWorkerInputType>("direc
 const directoryScanWorker = new Worker<DirectoryScanWorkerInputType>(
   "directoryScanQueue",
   async (job) => {
-    const { repositoryId, repositoryPath } = job.data;
-    await exploreAndCreateFileRecords(repositoryPath, repositoryId);
+    const { repositoryId, repositoryPathForOctokit } = job.data;
+    await exploreAndCreateFileRecords(repositoryPathForOctokit, repositoryId);
   },
   {
     concurrency: 5,

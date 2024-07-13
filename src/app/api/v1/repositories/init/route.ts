@@ -31,10 +31,10 @@ export async function POST(req: Request) {
   });
 
   const userAndRepoSegment = repository.url.replace(GITHUB_URL, "");
-  const repositoryPath = `/repos/${userAndRepoSegment}/contents`;
+  const repositoryPathForOctokit = `/repos/${userAndRepoSegment}/contents`;
 
   try {
-    await directoryScanQueue.add("directoryScan", { repositoryId: repository.id, repositoryPath });
+    await directoryScanQueue.add("directoryScan", { repositoryId: repository.id, repositoryPathForOctokit });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
