@@ -1,12 +1,15 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { GITHUB_URL } from "@/const/url";
+import { useRepositoryMutation } from "@/hooks/repository";
 
 const FormSchema = z.object({
   segment: z.string().min(1, {
@@ -15,6 +18,7 @@ const FormSchema = z.object({
 });
 
 export default function FormArea() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     defaultValues: {
       segment: "",
@@ -22,8 +26,11 @@ export default function FormArea() {
     resolver: zodResolver(FormSchema),
   });
 
-  const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    console.log(data);
+  const { initRepositoryMutation } = useRepositoryMutation();
+
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    await initRepositoryMutation.trigger({ repositoryUrl: `${GITHUB_URL}${data.segment}` });
+    router.push("/home");
   };
 
   return (
@@ -37,7 +44,7 @@ export default function FormArea() {
               <FormItem>
                 <FormControl>
                   <div className="flex flex-col gap-1 lg:flex-row lg:items-center">
-                    <p>https://github.com/</p>
+                    <p>{GITHUB_URL}</p>
                     <Input placeholder="{username}/{repositoryname}" {...field} className="foucs: outline-none" />
                   </div>
                 </FormControl>
