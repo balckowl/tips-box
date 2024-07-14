@@ -29,7 +29,7 @@ export default function Tip({ title, codeUrl, content, createdAt }: TipProps) {
         <div className="flex items-center gap-2">
           <LinkPreview
             url={codeUrl}
-            className="bg-gradient-to-br from-purple-500 to-pink-500 bg-clip-text font-bold text-transparent"
+            className="break-all bg-gradient-to-br from-purple-500 to-pink-500 bg-clip-text font-bold text-transparent"
           >
             {codeUrl}
           </LinkPreview>
