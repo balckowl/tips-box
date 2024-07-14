@@ -43,11 +43,15 @@ export default function WaitTips() {
     <div className="w-full xl:w-[70%]">
       <div className="rounded-lg">
         <Image src={WaitTipsImg} alt="" width={250} height={250} className="mx-auto" />
-        <p className="text-center text-[1.5em]">
+        <p className="mb-4 text-center text-[1.5em]">
           現在Tipsを生成中です
           <Dot delay={0} />
           <Dot delay={0.5} />
           <Dot delay={1} />
+        </p>
+        <p className="text-center text-sm text-gray-500">
+          自動的にリロードされます <br />
+          初回は 5 つのTipsが生成されます
         </p>
       </div>
     </div>
