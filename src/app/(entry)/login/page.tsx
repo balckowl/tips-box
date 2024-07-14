@@ -1,4 +1,5 @@
 import { ArrowLeft } from "lucide-react";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -7,6 +8,12 @@ import LoginImg from "@/assets/login-visual.webp";
 import SignInBtn from "@/components/login/sign-in-btn";
 import { getRepositoryCount } from "@/data/repository";
 import { authenticateUser } from "@/lib/authenticate-user";
+import { getOgpMetaData } from "@/lib/get-ogp-metadata";
+
+export const metadata: Metadata = {
+  title: "ログイン",
+  ...getOgpMetaData({ path: "/login" }),
+};
 
 export default async function Page() {
   const sessionUser = await authenticateUser();

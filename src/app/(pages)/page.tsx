@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import About from "@/components/welcome/about";
@@ -6,6 +7,11 @@ import HowTo from "@/components/welcome/how-to/how-to";
 import Start from "@/components/welcome/start";
 import { getRepositoryCount } from "@/data/repository";
 import { authenticateUser } from "@/lib/authenticate-user";
+import { getOgpMetaData } from "@/lib/get-ogp-metadata";
+
+export const metadata: Metadata = {
+  ...getOgpMetaData({ path: "/", siteType: "website" }),
+};
 
 export default async function Home() {
   const sessionUser = await authenticateUser();
