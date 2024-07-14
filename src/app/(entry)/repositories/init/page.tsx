@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
@@ -5,6 +6,12 @@ import RepoImg from "@/assets/repository-visual.webp";
 import FormArea from "@/components/repositories/init/form-area";
 import { getRepositoryCount } from "@/data/repository";
 import { authenticateUser } from "@/lib/authenticate-user";
+import { getOgpMetaData } from "@/lib/get-ogp-metadata";
+
+export const metadata: Metadata = {
+  title: "リポジトリの追加",
+  ...getOgpMetaData({ path: "/repositories/init" }),
+};
 
 export default async function Page() {
   const sessionUser = await authenticateUser();

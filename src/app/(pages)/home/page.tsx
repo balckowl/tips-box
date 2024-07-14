@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import Sidebar from "@/components/home/sidebar";
@@ -6,6 +7,12 @@ import WaitTips from "@/components/home/tips-section/wait-tips";
 import { getRepositoryCount } from "@/data/repository";
 import { getTipsByUserId } from "@/data/tip";
 import { authenticateUser } from "@/lib/authenticate-user";
+import { getOgpMetaData } from "@/lib/get-ogp-metadata";
+
+export const metadata: Metadata = {
+  title: "ホーム",
+  ...getOgpMetaData({ path: "/home" }),
+};
 
 export default async function Page() {
   const sessionUser = await authenticateUser();
