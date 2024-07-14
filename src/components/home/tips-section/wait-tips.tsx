@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useEffect } from "react";
 
 import WaitTipsImg from "@/assets/wait-tips-visual.png";
 
@@ -30,6 +31,14 @@ const Dot = ({ delay }: { delay: number }) => (
 );
 
 export default function WaitTips() {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      window.location.reload();
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="w-full xl:w-[70%]">
       <div className="rounded-lg">
