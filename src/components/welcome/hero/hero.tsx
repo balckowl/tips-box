@@ -10,7 +10,7 @@ export default function Hero() {
   return (
     <div className="border border-b-2 bg-muted py-[70px] lg:py-[50px]">
       <div className="flex justify-center">
-        <div className="flex w-[90%] flex-col items-center gap-2 md:w-[70%] lg:flex-row lg:gap-10">
+        <div className="flex w-[90%] max-w-[1080px] flex-col items-center justify-center gap-2 md:w-[70%] lg:flex-row lg:gap-10">
           <div className="order-2 space-y-5 lg:order-1">
             <Heading />
             <p className="text-[1rem]">ご自身のGitHubリポジトリから、毎日ランダムなtipsをお届けします。</p>

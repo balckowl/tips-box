@@ -6,7 +6,7 @@ export default function HowTo() {
   return (
     <div className="bg-[#eee] py-[70px] dark:bg-zinc-700">
       <div className="flex justify-center">
-        <div className="w-[90%] space-y-3 md:w-[70%]">
+        <div className="w-[90%] max-w-[1080px] space-y-3 md:w-[70%]">
           <div className="space-y-3">
             <h3 className="text-[2.0rem] font-bold">Tips Boxの使い方</h3>
             <p>Tips Boxは以下の4ステップで簡単に始めることができます。</p>

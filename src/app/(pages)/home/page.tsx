@@ -27,7 +27,7 @@ export default async function Page() {
 
   return (
     <div className="min-h-[calc(100vh-60px-60px)]">
-      <div className="mx-auto w-[90%] py-[80px] lg:w-[70%] lg:py-[100px]">
+      <div className="mx-auto w-[90%] max-w-[1080px] py-[80px] lg:w-[70%] lg:py-[100px]">
         <h2 className="mb-[10px] text-[1.4rem] font-bold">最新のtips</h2>
         <div className="flex flex-col gap-7 xl:flex-row">
           {tipsList.length === 0 ? (
