@@ -6,7 +6,7 @@ export default function About() {
   return (
     <div className="bg-muted py-[50px]">
       <div className="flex justify-center">
-        <div className="flex w-[90%] flex-col gap-10 rounded-md border border-muted p-5 dark:bg-zinc-700 md:w-[70%] lg:flex-row">
+        <div className="flex w-[90%] max-w-[1080px] flex-col justify-center gap-10 rounded-md border border-muted p-5 dark:bg-zinc-700 md:w-[70%] lg:flex-row">
           <div className="space-y-3">
             <h4 className="text-[1.7rem] font-bold">毎朝手軽に自分が使っている技術のtipsを得られるサービス</h4>
             <p className="text-[1rem] leading-9">
